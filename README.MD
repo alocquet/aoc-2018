@@ -1,5 +1,7 @@
 # Aoc 2018
 
+[![Build Status](https://travis-ci.org/alocquet/aoc-2018.svg?branch=develop)](https://travis-ci.org/alocquet/aoc-2018)
+
 Soluces of Advent of code 2018 written with Rust.
 
 ## Build
@@ -30,3 +32,6 @@ OPTIONS:
     -d, --day <day**>      day number
     -i, --input <input>    input
 ```
+
+## Credit
+[Advent of code](http://adventofcode.com)
