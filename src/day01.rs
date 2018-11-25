@@ -1,13 +1,28 @@
-use std::fs::File;
-use std::io::prelude::*;
+use utils;
 
 pub fn run(input: Option<&str>) {
-    let input = input.expect("input is needed");
-    println!("Day 01 : {}", input);
-
-    let mut f = File::open(input).expect("file not found");
-    let mut input = String::new();
-    f.read_to_string(&mut input).expect("something went wrong reading the file");
-
+    let input = utils::read_file(input);
     println!("Day 01 file content : {}", input);
+    println!("Day 01 content is empty : {}", is_empty(&input));
+}
+
+pub fn is_empty(value: &str) -> bool {
+    value.is_empty()
+}
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn test_empty() {
+        assert_eq!(is_empty("test"), false);
+    }
+
+    #[test]
+    fn test_not_empty() {
+        assert_eq!(is_empty(""), true);
+    }
+
 }

@@ -30,7 +30,7 @@ fn main() {
 
 macro_rules! modules {
     ($($mod:ident,)*) => {
-        $(pub mod $mod;)*
+        // $(pub mod $mod;)*
 
         pub fn run_day(day: &str, input: Option<&str>) {
             $(
@@ -41,6 +41,9 @@ macro_rules! modules {
         }
     }
 }
+
+pub mod utils;
+pub mod day01;
 
 modules![
   day01,
