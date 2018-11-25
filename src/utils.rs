@@ -10,3 +10,28 @@ pub fn read_file(input: Option<&str>) -> String {
 
     result
 }
+
+#[cfg(test)]
+mod tests {
+
+    use super::*;
+
+    #[test]
+    fn read_a_test_file() {
+        let content = read_file(Option::Some("inputs/test.txt"));
+        assert_eq!(content, "test");
+    }
+
+    #[test]
+    #[should_panic]
+    fn read_file_which_not_exist_should_manic() {
+        read_file(Option::Some("inputs/dummy.txt"));
+    }
+
+    #[test]
+    #[should_panic]
+    fn read_file_with_no_param_should_manic() {
+        read_file(Option::None);
+    }
+
+}
