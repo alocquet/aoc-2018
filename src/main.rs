@@ -2,6 +2,10 @@ extern crate clap;
 
 use clap::{Arg, App};
 
+
+pub mod utils;
+mod algos;
+
 fn main() {
     let matches = App::new("aoc-2018")
         .version("0.1.0")
@@ -25,25 +29,5 @@ fn main() {
 
     let day = matches.value_of("DAY").unwrap();
     let input = matches.value_of("INPUT");
-    run_day(day, input);
+    algos::run_day(day, input);
 }
-
-macro_rules! modules {
-    ($($mod:ident,)*) => {
-        $(pub mod $mod;)*
-
-        pub fn run_day(day: &str, input: Option<&str>) {
-            $(
-            if stringify!($mod)==day {
-                self::$mod::run(input);
-            }
-            )*
-        }
-    }
-}
-
-pub mod utils;
-
-modules![
-  day01,
-];
