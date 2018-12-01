@@ -1,2 +1,2 @@
-pub fn run(_input: Option<&str>) {
+pub fn run() {
 }

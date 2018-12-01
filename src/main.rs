@@ -2,7 +2,6 @@ extern crate clap;
 
 use clap::{Arg, App};
 
-
 pub mod utils;
 mod algos;
 
@@ -18,16 +17,8 @@ fn main() {
             .required(true)
             .takes_value(true)
             .help("day number"))
-        .arg(Arg::with_name("INPUT")
-            .short("i")
-            .long("input")
-            .value_name("input")
-            .required(false)
-            .takes_value(true)
-            .help("input"))
         .get_matches();
 
     let day = matches.value_of("DAY").unwrap();
-    let input = matches.value_of("INPUT");
-    algos::run_day(day, input);
+    algos::run_day(day);
 }

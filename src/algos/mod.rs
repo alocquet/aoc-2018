@@ -2,10 +2,10 @@ macro_rules! modules {
     ($($mod:ident),*) => {
         $(pub mod $mod;)*
 
-        pub fn run_day(day: &str, input: Option<&str>) {
+        pub fn run_day(day: &str) {
             $(
             if stringify!($mod)==day {
-                self::$mod::run(input);
+                println!("{:?}", self::$mod::run());
             }
             )*
         }

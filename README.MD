@@ -9,29 +9,24 @@ Soluces of Advent of code 2018 written with Rust.
 cargo build --release
 
 ## Tests
-cargo test
+cargo test --release
 
 ## Run
 ```sh
-cargo run -- args
-```
-or
-```sh
-./target/release/aoc-2018 -args
+cargo run --release -- args
 ```
 
 ### Arguments
 ```
 USAGE:
-    aoc-2018 [OPTIONS] --day <day**>
+    aoc-2018 --day <day**>
 
 FLAGS:
     -h, --help       Prints help information
     -V, --version    Prints version information
 
 OPTIONS:
-    -d, --day <day**>      day number
-    -i, --input <input>    input
+    -d, --day <day**>    day number
 ```
 
 ## Credit
