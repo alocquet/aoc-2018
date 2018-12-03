@@ -1,5 +1,6 @@
 pub mod day01;
 pub mod day02;
+pub mod day03;
 
 macro_rules! modules {
     ($($mod:ident),*) => {
@@ -16,5 +17,5 @@ macro_rules! modules {
     }
 }
 modules![
-  day01, day02
+  day01, day02, day03
 ];

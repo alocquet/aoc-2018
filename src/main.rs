@@ -1,4 +1,6 @@
+#[macro_use] extern crate lazy_static;
 extern crate clap;
+extern crate regex;
 
 use clap::{Arg, App};
 
