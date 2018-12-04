@@ -16,13 +16,20 @@ pub fn run() -> (usize, usize) {
 fn run_from_input(lines: &[&str]) -> (usize, usize) {
     let nights = parse_nights(&lines);
     let durations = compute_asleep_duration_per_guard(&nights);
-    let (guard, max) = durations.iter().max_by(|(_, a), (_, b)|
+
+    // step1
+    let (guard, minutes) = durations.iter().max_by(|(_, a), (_, b)|
         a.borrow().iter().sum::<usize>().cmp(&b.borrow().iter().sum())
     ).unwrap();
+    let step1 = guard * minutes.borrow().iter().position(|val| val == minutes.borrow().iter().max().unwrap()).unwrap();
 
-    let step1 = guard * max.borrow().iter().position(|val| val == max.borrow().iter().max().unwrap()).unwrap();
+    // step2
+    let (guard, minutes) = durations.iter().max_by(|(_,a), (_,b)|
+        a.borrow().iter().max().cmp(&b.borrow().iter().max())
+    ).unwrap();
+    let step2 = guard * minutes.borrow().iter().position(|val| val == minutes.borrow().iter().max().unwrap()).unwrap();
 
-    (step1, 0)
+    (step1, step2)
 }
 
 fn compute_asleep_duration_per_guard(nights: &[Night]) -> HashMap<usize, RefCell<Vec<usize>>> {
@@ -34,8 +41,8 @@ fn compute_asleep_duration_per_guard(nights: &[Night]) -> HashMap<usize, RefCell
         let periods = night.periods.borrow();
         for (idx, period) in periods.iter().enumerate() {
             if period.status == Status::Asleep {
-                let from: usize = get_accountable_minutes(period);
-                let to: usize = if idx < periods.len() { get_accountable_minutes(&periods[idx + 1]) } else { 59 };
+                let from: usize = period.minute;
+                let to: usize = if idx < periods.len() { periods[idx + 1].minute } else { 59 };
                 for minute in minutes.borrow_mut().iter_mut().take(to).skip(from) {
                     *minute += 1;
                 }
@@ -43,14 +50,6 @@ fn compute_asleep_duration_per_guard(nights: &[Night]) -> HashMap<usize, RefCell
         }
     }
     minutes_by_guard
-}
-
-fn get_accountable_minutes(period: &Period) -> usize {
-    if period.hour == 0 {
-        period.minute
-    } else {
-        0
-    }
 }
 
 #[derive(PartialEq, Debug)]
@@ -128,7 +127,7 @@ mod tests {
 [1518-11-05 00:03] Guard #99 begins shift
 [1518-11-05 00:45] falls asleep
 [1518-11-05 00:55] wakes up".lines().collect();
-        assert_eq!(run_from_input(&input_test), (240, 0));
+        assert_eq!(run_from_input(&input_test), (240, 4455));
     }
 
     #[test]
@@ -136,6 +135,6 @@ mod tests {
 
     #[test]
     fn input() {
-        assert_eq!(run(), (109659, 0));
+        assert_eq!(run(), (109659, 36371));
     }
 }
