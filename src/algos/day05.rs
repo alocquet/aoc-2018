@@ -2,7 +2,6 @@ use regex::Regex;
 use rayon::prelude::*;
 use utils;
 
-#[cfg_attr(tarpaulin, skip)]
 pub fn run() -> (usize, usize) {
     let input = utils::read_file("inputs/day05.txt");
 
@@ -16,7 +15,7 @@ fn compute_stable_polymer(input: String) -> String {
 
     while polymer.len() != length {
         length = polymer.len();
-        polymer = re.replace_all(&polymer, "").to_string();
+        polymer = re.replace_all(&polymer, "").into();
     }
 
     polymer
@@ -45,7 +44,7 @@ mod tests {
 
     #[test]
     fn input() {
-        //assert_eq!(run(), (9900, 4992));
+        assert_eq!(run(), (9900, 4992));
     }
 }
 

@@ -17,9 +17,7 @@ before_script:
 - rustup component add clippy-preview
 
 script:
-- cargo clean
-- cargo build
-- cargo test
+- cargo test --release
 - cargo clippy -- -D warnings
 
 after_success: |
