@@ -5,6 +5,7 @@ pub mod day04;
 pub mod day05;
 pub mod day06;
 pub mod day07;
+pub mod day08;
 
 macro_rules! modules {
     ($($mod:ident),*) => {
@@ -21,5 +22,5 @@ macro_rules! modules {
     }
 }
 modules![
-  day01, day02, day03, day04, day05, day06, day07
+  day01, day02, day03, day04, day05, day06, day07, day08
 ];
