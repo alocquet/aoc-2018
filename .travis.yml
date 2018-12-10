@@ -1,9 +1,10 @@
 language: rust
-sudo: required
-rust:
-  - stable
-  - nightly
+sudo: false
 matrix:
+  include:
+    - rust: nightly
+      sudo: true
+    - rust: stable
   allow_failures:
   - rust: nightly
 addons:
@@ -16,15 +17,18 @@ before_cache: |
   if [[ "$TRAVIS_RUST_VERSION" == nightly ]]; then
     RUSTFLAGS="--cfg procmacro2_semver_exempt" cargo install cargo-tarpaulin
   fi
-before_script:
-- rustup component add clippy-preview
+before_script: |
+  if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
+    rustup component add clippy-preview
+  fi
 
-script:
-- cargo test --release
-- cargo clippy -- -D warnings
-
-after_success: |
-  if [[ "$TRAVIS_RUST_VERSION" == nightly ]]; then
-    cargo tarpaulin --out Xml
+script: |
+  if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
+    cargo build --release
+    cargo test --release
+    cargo clippy -- -D warnings
+  else
+    cargo build
+    cargo tarpaulin --out Xml --skip-clean
     bash <(curl -s https://codecov.io/bash)
   fi
