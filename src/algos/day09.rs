@@ -1,5 +1,6 @@
 use std::collections::VecDeque;
 
+#[cfg_attr(tarpaulin, skip)]
 pub fn run() -> (usize, usize) {
     (compute_best_score(473, 70904), compute_best_score(473, 70904*100))
 }
@@ -55,6 +56,7 @@ mod tests {
     }
 
     #[test]
+    #[ignore]
     fn input() {
         assert_eq!(run(), (371284, 3038972494));
     }

@@ -26,6 +26,7 @@ script: |
   if [[ "$TRAVIS_RUST_VERSION" == stable ]]; then
     cargo build --release
     cargo test --release
+    cargo test --release -- --ignored
     cargo clippy -- -D warnings
   else
     cargo build
