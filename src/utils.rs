@@ -1,6 +1,8 @@
 use std::fs::File;
 use std::io::prelude::*;
 use std::ops::AddAssign;
+use std::ops::Add;
+use std::cmp::Ordering;
 
 pub fn read_file(file_name: &str) -> String {
     let mut file = File::open(file_name).expect("file not found");
@@ -22,6 +24,32 @@ impl AddAssign for Point {
             x: self.x + other.x,
             y: self.y + other.y,
         };
+    }
+}
+
+impl Add for Point {
+    type Output = Point;
+    fn add(self, other: Point) -> Point{
+        Point {
+            x: self.x + other.x,
+            y: self.y + other.y,
+        }
+    }
+}
+
+impl Ord for Point {
+    fn cmp(&self, other: &Self) -> Ordering {
+        if self.y == other.y {
+            self.x.cmp(&other.x)
+        } else {
+            self.y.cmp(&other.y)
+        }
+    }
+}
+
+impl PartialOrd for Point {
+    fn partial_cmp(&self, other: &Point) -> Option<Ordering> {
+        Some(self.cmp(other))
     }
 }
 
