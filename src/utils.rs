@@ -58,6 +58,7 @@ pub const SOUTH: Point = Point { x: 0, y: 1 };
 pub const EAST: Point = Point { x: 1, y: 0 };
 pub const WEST: Point = Point { x: -1, y: 0 };
 
+
 #[cfg(test)]
 mod tests {
     use super::*;
