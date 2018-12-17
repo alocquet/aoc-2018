@@ -25,7 +25,7 @@ fn run_game(elf_power: isize) -> (isize, bool) {
 
     let mut i = 0;
     while nb_gobelin != 0 && nb_elves != 0 {
-        users.sort_by_key(|user| user.position.clone());
+        users.sort_by_key(|user| user.position);
         let mut break_before_ends = false;
 
         for idx in 0..users.len() {
@@ -36,16 +36,16 @@ fn run_game(elf_power: isize) -> (isize, bool) {
                 }
 
                 let user_type = users[idx].user_type;
-                let user_position = users[idx].position.clone();
+                let user_position = users[idx].position;
                 let power = if user_type == 'E' { elf_power } else { 3 };
                 if !attack(&user_position, user_type, &mut users, power) {
                     // move
                     let shortest_path = shortest_path(&users[idx], &map, &users);
                     if shortest_path.is_some() {
-                        users[idx].position = shortest_path.unwrap()[1].clone();
+                        users[idx].position = shortest_path.unwrap()[1];
                     }
                     // attack
-                    let user_position = users[idx].position.clone();
+                    let user_position = users[idx].position;
                     attack(&user_position, user_type, &mut users, power);
                 }
 
@@ -65,7 +65,7 @@ fn run_game(elf_power: isize) -> (isize, bool) {
 }
 
 fn attack(user_position: &Point, user_type: char, users: &mut Vec<User>, power: isize) -> bool {
-    let neightboor_positions = [user_position.clone() + NORTH, user_position.clone() + WEST, user_position.clone() + EAST, user_position.clone() + SOUTH];
+    let neightboor_positions = [*user_position + NORTH, *user_position + WEST, *user_position + EAST, *user_position + SOUTH];
     let mut enemies: Vec<&mut User> = users.iter_mut().filter(|user| user.heatlh > 0 && user.user_type != user_type && neightboor_positions.contains(&user.position)).collect();
 
     if !enemies.is_empty() {
@@ -89,12 +89,12 @@ fn count_users(users: &[User], user_type: char) -> usize {
 
 fn shortest_path(user: &User, map: &[Vec<char>], users: &[User]) -> Option<Path> {
     let mut queue = VecDeque::new();
-    queue.push_back(vec!(user.position.clone()));
-    let mut visited = vec!(user.position.clone());
+    queue.push_back(vec!(user.position));
+    let mut visited = vec!(user.position);
     while !queue.is_empty() {
         let current_path = queue.pop_front().unwrap();
-        let current = current_path.clone().last().unwrap().clone();
-        for next in &[current.clone() + NORTH, current.clone() + WEST, current.clone() + EAST, current.clone() + SOUTH] {
+        let current = *current_path.clone().last().unwrap();
+        for next in &[current + NORTH, current + WEST, current + EAST, current + SOUTH] {
             if users.iter().any(|u| u.heatlh > 0 && u.user_type != user.user_type && u.position == *next) {
                 current_path.clone().push(next.clone());
                 return Some(current_path);

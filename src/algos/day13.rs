@@ -8,9 +8,9 @@ pub fn run() -> (Point, Point) {
     let (mut carts, map) = parse(&input);
     let crashes = compute_first_crash(&mut carts, &map);
 
-    let first_crash = crashes.first().expect("should have at least one crash").clone();
+    let first_crash = crashes.first().expect("should have at least one crash");
     let valid_cart = carts.iter().filter(|cart| !cart.crashed).last().expect("should persist a valid cart");
-    (first_crash, valid_cart.position.clone())
+    (*first_crash, valid_cart.position)
 }
 
 fn compute_first_crash(carts: &mut Vec<Cart>, map: &[Vec<char>]) -> Vec<Point> {
@@ -22,7 +22,7 @@ fn compute_first_crash(carts: &mut Vec<Cart>, map: &[Vec<char>]) -> Vec<Point> {
         for id_cart in 0..carts.len() {
             if !carts[id_cart].crashed {
                 { carts[id_cart].move_next(map); }
-                let cart_position = carts[id_cart].position.clone();
+                let cart_position = carts[id_cart].position;
                 let mut crashes: Vec<&mut Cart> = carts.iter_mut().filter(|other| !other.crashed && other.position == cart_position).collect();
 
                 if crashes.len() > 1 {
@@ -52,15 +52,15 @@ impl Cart {
             '+' => {
                 let next_direction = match self.nb_intersections {
                     0 => Point { x: self.direction.y, y: -self.direction.x },
-                    1 => self.direction.clone(),
+                    1 => self.direction,
                     _ => Point { x: -self.direction.y, y: self.direction.x },
                 };
                 self.nb_intersections = (self.nb_intersections + 1) % 3;
                 next_direction
             }
-            _ => self.direction.clone(),
+            _ => self.direction,
         };
-        self.position += self.direction.clone();
+        self.position += self.direction;
     }
 }
 

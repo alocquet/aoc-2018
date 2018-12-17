@@ -12,7 +12,7 @@ pub fn read_file(file_name: &str) -> String {
     result
 }
 
-#[derive(Clone, Debug, PartialEq, Eq, Hash)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
