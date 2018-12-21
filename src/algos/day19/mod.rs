@@ -33,7 +33,7 @@ fn execute_program(input: &str, start: usize) -> usize {
     sum
 }
 
-fn execute(mut device: Device, instruction: &Instruction) -> Device {
+pub fn execute(mut device: Device, instruction: &Instruction) -> Device {
     match instruction.op_type {
         ADDR => device.registers[instruction.c] = device.registers[instruction.a] + device.registers[instruction.b],
         ADDI => device.registers[instruction.c] = device.registers[instruction.a] + instruction.b,
@@ -55,7 +55,7 @@ fn execute(mut device: Device, instruction: &Instruction) -> Device {
     device
 }
 
-fn parse(input: &str) -> (usize, Vec<Instruction>) {
+pub fn parse(input: &str) -> (usize, Vec<Instruction>) {
     let mut lines = input.lines();
 
     let ip: usize = lines.next().expect("no lines in input")[4..].parse().expect("header has a bad format");
