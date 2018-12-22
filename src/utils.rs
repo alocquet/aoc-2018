@@ -13,6 +13,49 @@ pub fn read_file(file_name: &str) -> String {
 }
 
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub enum Direction {
+    UP,
+    DOWN,
+    LEFT,
+    RIGHT,
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub struct UPoint {
+    pub x: usize,
+    pub y: usize,
+}
+
+#[allow(clippy::suspicious_arithmetic_impl)]
+impl Add<Direction> for UPoint {
+    type Output = Option<UPoint>;
+    fn add(self, dir: Direction) -> Option<UPoint> {
+        match dir {
+            Direction::UP => if self.y == 0 { None } else { Some(UPoint { x: self.x, y: self.y - 1 }) },
+            Direction::DOWN => Some(UPoint { x: self.x, y: self.y + 1 }),
+            Direction::LEFT => if self.x == 0 { None } else { Some(UPoint { x: self.x - 1, y: self.y }) },
+            Direction::RIGHT => Some(UPoint { x: self.x + 1, y: self.y }),
+        }
+    }
+}
+
+impl Ord for UPoint {
+    fn cmp(&self, other: &Self) -> Ordering {
+        if self.y == other.y {
+            self.x.cmp(&other.x)
+        } else {
+            self.y.cmp(&other.y)
+        }
+    }
+}
+
+impl PartialOrd for UPoint {
+    fn partial_cmp(&self, other: &UPoint) -> Option<Ordering> {
+        Some(self.cmp(other))
+    }
+}
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
 pub struct Point {
     pub x: isize,
     pub y: isize,
@@ -29,7 +72,7 @@ impl AddAssign for Point {
 
 impl Add for Point {
     type Output = Point;
-    fn add(self, other: Point) -> Point{
+    fn add(self, other: Point) -> Point {
         Point {
             x: self.x + other.x,
             y: self.y + other.y,
