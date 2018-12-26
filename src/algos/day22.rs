@@ -65,10 +65,10 @@ enum Tool {
 }
 
 impl Tool {
-    fn is_valid(&self, risk: usize) -> bool {
-        (risk == 0 && (*self == Tool::Torch || *self == Tool::ClimbingGear))
-            || (risk == 1 && (*self == Tool::Neither || *self == Tool::ClimbingGear))
-            || (risk == 2 && (*self == Tool::Torch || *self == Tool::Neither))
+    fn is_valid(self, risk: usize) -> bool {
+        (risk == 0 && (self == Tool::Torch || self == Tool::ClimbingGear))
+            || (risk == 1 && (self == Tool::Neither || self == Tool::ClimbingGear))
+            || (risk == 2 && (self == Tool::Torch || self == Tool::Neither))
     }
 }
 
